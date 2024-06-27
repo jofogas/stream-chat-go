@@ -151,6 +151,11 @@ func (c *Client) CreateToken(userID string, expire time.Time, issuedAt ...time.T
 	return c.createToken(claims)
 }
 
+// CreateServerToken creates a new server token
+func (c *Client) CreateServerToken() (string, error) {
+	return c.createToken(jwt.MapClaims{"server": true})
+}
+
 func (c *Client) createToken(claims jwt.Claims) (string, error) {
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(c.apiSecret)
 }
